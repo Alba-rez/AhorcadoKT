@@ -1,9 +1,16 @@
+import reproductor.ReproductorMidi
+
 fun main(){
 
-    val frutas=arrayOf("pera","piña","coco","lima","mani","kiwi");
+    val rm= ReproductorMidi("C:\\Users\\albaa\\Downloads\\pugnodollari.mid")
+    println("Cargando programa...")
+    Thread.sleep(7000)
+
+
+    val frutas=arrayOf("pera","piña","coco","lima","mani","kiwi")
     val fruta=frutas.random() // asignamos a la variable fruta un valor random del array frutas
     val frutaOculta=CharArray(fruta.length) // creamos un array de chars con el tamaño del elemento seleccionado por random()
-    for(i in 0 until fruta.length){ // rellenamos ese array con asteriscos
+    for(i in 0 until fruta.length){ // rellenamos ese palabra seleccionada con asteriscos
         frutaOculta[i]='*'
     }
     var intentos=7
@@ -22,20 +29,30 @@ fun main(){
         val entrada=readln()
         val letra=entrada[0]
 
-        if(fruta.contains(letra)){ // si la palabra random contiene la letra que escribimos por teclado
-            for(j in 0 until fruta.length){ // creamos un bucle donde con una condiciómn especificamos que si el índice de la fruta random es igual a la letra
-                if(fruta[j].equals(letra)){
-                    frutaOculta[j]=letra // el mismo índice para frutaOculta será reemplazado por la letra
-                }
-            }
-            // si la fruta random no contiene la letra que introducimos x teclado se descontarán intentos
-        }else{
+        val letrasGuardadas=mutableListOf<Char>()
+
+
+        if(letrasGuardadas.contains(letra)){
             intentos--
-
-            // y se llamará a al método dibujar de la clase DibujoAhorcado ( el case llamado será el 1 (7-6), después el 2(7-5), etc
-
             DibujoAhorcado.dibujar(7-intentos)
+        }else {
+            letrasGuardadas.add(letra)
 
+            if (fruta.contains(letra)) { // si la palabra random contiene la letra que escribimos por teclado
+                for (j in 0 until fruta.length) { // creamos un bucle donde con una condiciómn especificamos que si el índice de la fruta random es igual a la letra
+                    if (fruta[j].equals(letra)) {
+                        frutaOculta[j] = letra // el mismo índice para frutaOculta será reemplazado por la letra
+                    }
+                }
+                // si la fruta random no contiene la letra que introducimos x teclado se descontarán intentos
+            } else {
+                intentos--
+
+                // y se llamará a al método estático dibujar de la clase DibujoAhorcado ( el case llamado será el 1 (7-6), después el 2(7-5), etc
+
+                DibujoAhorcado.dibujar(7 - intentos)
+
+            }
         }
 
     }
